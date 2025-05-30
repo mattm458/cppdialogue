@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(lib/sobjectizer/dev)
 add_subdirectory(lib/SDL)
 add_subdirectory(lib/whisper.cpp)
+add_subdirectory(lib/boost)
 
 set(WAV_DIR ${CMAKE_SOURCE_DIR}/wav)
 set(WAV_LINK ${CMAKE_BINARY_DIR}/wav)
@@ -19,4 +20,4 @@ add_custom_target(wav_dir ALL DEPENDS ${WAV_LINK})
 
 add_executable(cppdialogue src/main.cpp)
 
-target_link_libraries(cppdialogue PRIVATE sobjectizer::SharedLib SDL3::SDL3 whisper)
+target_link_libraries(cppdialogue PRIVATE sobjectizer::SharedLib SDL3::SDL3 whisper Boost::asio)
