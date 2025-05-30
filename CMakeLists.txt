@@ -4,11 +4,9 @@ project(CppDialogue)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add RaftLib as subdirectory
 add_subdirectory(lib/sobjectizer/dev)
+add_subdirectory(lib/SDL)
 
-# Your executable
 add_executable(cppdialogue src/main.cpp)
 
-# Link RaftLib library
-target_link_libraries(cppdialogue PRIVATE sobjectizer::SharedLib)
+target_link_libraries(cppdialogue PRIVATE sobjectizer::SharedLib SDL3::SDL3)
