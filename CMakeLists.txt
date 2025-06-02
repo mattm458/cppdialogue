@@ -17,8 +17,10 @@ add_custom_command(
 
 add_custom_target(wav_dir ALL DEPENDS ${WAV_LINK})
 
-add_executable(cppdialogue src/main.cpp src/WavSource.cpp)
+add_executable(cppdialogue
+    src/main.cpp
+)
 
-include_directories(${Boost_INCLUDE_DIRS})
+target_include_directories(cppdialogue PRIVATE include)
 
-target_link_libraries(cppdialogue PRIVATE SDL3::SDL3 whisper Boost::asio)
+target_link_libraries(cppdialogue PRIVATE SDL3::SDL3)
