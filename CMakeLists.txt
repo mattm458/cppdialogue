@@ -18,6 +18,7 @@ add_custom_target(wav_dir ALL DEPENDS ${WAV_LINK})
 
 add_executable(cppdialogue
     src/main.cpp
+    src/PipelineExample/LowerCaseProcessor.cpp
     src/PipelineExample/StringConsumer.cpp
     src/PipelineExample/TextFileProducer.cpp
 )
