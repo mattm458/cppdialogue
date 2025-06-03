@@ -1,7 +1,6 @@
 #pragma once
 
 #include <PipelineBase/MutexQueue.h>
-#include <PipelineBase/Runnable.h>
 
 #include <memory>
 
@@ -9,7 +8,7 @@ template <class OutType>
 class Producible;
 
 template <typename InType>
-class Consumable : public Runnable {
+class Consumable {
    public:
     Consumable()
         : has_producer(false),
@@ -21,7 +20,7 @@ class Consumable : public Runnable {
 
         this->has_producer = true;
         producer.has_consumer = true;
-        this->consumer_queue = producer.producer_queue();
+        this->consumer_queue = producer.producer_queue;
     }
 
    protected:

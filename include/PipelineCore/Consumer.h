@@ -1,13 +1,14 @@
 #pragma once
 
 #include <PipelineBase/Consumable.h>
+#include <PipelineBase/Runnable.h>
 
 #include <memory>
 
 template <typename InType>
-class Consumer : public Consumable<InType> {
+class Consumer : public Consumable<InType>, public Runnable {
    public:
-    Consumer() : Consumable<InType>() {};
+    Consumer() : Consumable<InType>(), Runnable() {};
 
    protected:
     void step() override {

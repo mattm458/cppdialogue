@@ -1,22 +1,21 @@
 #pragma once
 
 #include <PipelineBase/MutexQueue.h>
-#include <PipelineBase/Runnable.h>
 
 #include <iostream>
 #include <memory>
 
 template <class InType>
-class Consumer;
+class Consumable;
 
 template <typename OutType>
-class Producible : public Runnable {
+class Producible {
    public:
     Producible()
         : has_consumer(false),
           producer_queue(std::make_shared<MutexQueue<OutType>>()) {}
 
-    void connect(Consumer<OutType>& consumer) {
+    void connect(Consumable<OutType>& consumer) {
         if (this->has_consumer)
             throw std::runtime_error("This Producer already has a Consumer!");
 
