@@ -1,12 +1,12 @@
 #include <SDL3/SDL.h>
 
-#include <PipelineCore/Processor.h>
+// #include <PipelineCore/Processor.h>
 #include <PipelineExample/StringConsumer.h>
 #include <PipelineExample/TextFileProducer.h>
 
+#include <future>
 #include <iostream>
 #include <string>
-#include <thread>
 
 int main() {
     TextFileProducer p("frankenstein.txt");
@@ -14,12 +14,10 @@ int main() {
 
     p.connect(c);
 
-    p.start();
-    c.start();
+    std::future<void> p_future = p.start();
+    std::future<void> c_future = c.start();
 
-    while (p.is_running()) {
-        std::this_thread::yield();
-    }
+    while (true) std::this_thread::yield();
 }
 
 // int main()

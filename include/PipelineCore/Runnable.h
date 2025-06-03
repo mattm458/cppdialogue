@@ -1,38 +1,30 @@
 #pragma once
 
-#include <thread>
+#include <atomic>
+#include <future>
+#include <iostream>
 
 class Runnable {
    public:
-    ~Runnable() {
-        if (this->t.joinable()) {
-            this->stop();
-            this->t.join();
-        }
+    virtual ~Runnable() { this->stop(); }
+
+    std::future<void> start() {
+        this->running.test_and_set();
+        return std::async(std::launch::async, &Runnable::_start, this);
     }
 
-    void start() {
-        this->running = true;
-        this->t = std::thread(&Runnable::_start, this);
-    }
-
-    void stop() { this->running = false; }
-
-    bool is_running() const { return this->running; }
+    void stop() { this->running.clear(); }
 
    protected:
     void _start() {
-        while (this->running) {
+        while (this->running.test()) {
             this->step();
             std::this_thread::yield();
         }
-
-        this->running = false;
     }
 
     virtual void step() = 0;
 
    private:
-    bool running = false;
-    std::thread t;
+    std::atomic_flag running;
 };
