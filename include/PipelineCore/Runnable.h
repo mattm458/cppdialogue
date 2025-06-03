@@ -13,10 +13,14 @@ class Runnable {
 
     void start() {
         this->running = true;
-
         this->t = std::thread(&Runnable::_start, this);
     }
 
+    void stop() { this->running = false; }
+
+    bool is_running() const { return this->running; }
+
+   protected:
     void _start() {
         while (this->running) {
             this->step();
@@ -25,10 +29,6 @@ class Runnable {
 
         this->running = false;
     }
-
-    void stop() { this->running = false; }
-
-    bool is_running() const { return this->running; }
 
     virtual void step() = 0;
 

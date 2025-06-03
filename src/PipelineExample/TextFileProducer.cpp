@@ -16,6 +16,6 @@ std::string TextFileProducer::produce() {
         return line;
     else {
         this->stop();
-        return "";
+        return line;
     }
 }

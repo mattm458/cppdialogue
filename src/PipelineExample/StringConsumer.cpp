@@ -5,10 +5,6 @@
 #include <iostream>
 #include <string>
 
-StringConsumer::StringConsumer() : Consumer() {}
+StringConsumer::StringConsumer() : Consumer<std::string>() {}
 
-void StringConsumer::step() {
-    if (this->consumable()) {
-        std::cout << this->consume() << std::endl;
-    }
-}
+void StringConsumer::consume(std::string& x) { std::cout << x << std::endl; }

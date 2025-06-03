@@ -29,7 +29,7 @@ class Producible : public Runnable {
     void push(OutType& x) { this->producer_queue->push(x); }
 
    private:
-    friend class Consumer<OutType>;
+    friend class Consumable<OutType>;
     bool has_consumer;
     std::shared_ptr<MutexQueue<OutType>> producer_queue = nullptr;
 };

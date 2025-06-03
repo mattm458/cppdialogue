@@ -7,5 +7,5 @@ class StringConsumer : public Consumer<std::string> {
    public:
     StringConsumer();
 
-    void step() override;
+    void consume(std::string& x) override;
 };
