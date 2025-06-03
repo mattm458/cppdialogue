@@ -1,6 +1,6 @@
 #pragma once
 
-#include <PipelineCore/Producible.h>
+#include <PipelineBase/Producible.h>
 
 template <typename OutType>
 class Producer : public Producible<OutType> {

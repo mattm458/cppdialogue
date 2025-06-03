@@ -1,6 +1,6 @@
 #pragma once
 
-#include <PipelineCore/Consumable.h>
+#include <PipelineBase/Consumable.h>
 
 #include <memory>
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <PipelineCore/MutexQueue.h>
-#include <PipelineCore/Runnable.h>
+#include <PipelineBase/MutexQueue.h>
+#include <PipelineBase/Runnable.h>
 
 #include <iostream>
 #include <memory>
