@@ -5,14 +5,17 @@
 #include <iostream>
 #include <memory>
 
+class ProducibleType {};
+
 template <class InType>
 class Consumable;
 
 template <typename OutType>
-class Producible {
+class Producible : public ProducibleType {
    public:
     Producible()
-        : has_consumer(false),
+        : ProducibleType(),
+          has_consumer(false),
           producer_queue(std::make_shared<MutexQueue<OutType>>()) {}
 
     void connect(Consumable<OutType>& consumer) {
