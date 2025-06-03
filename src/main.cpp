@@ -1,6 +1,6 @@
 #include <SDL3/SDL.h>
 
-// #include <PipelineCore/Processor.h>
+#include <PipelineExample/LowerCaseProcessor.h>
 #include <PipelineExample/StringConsumer.h>
 #include <PipelineExample/TextFileProducer.h>
 
@@ -10,11 +10,14 @@
 
 int main() {
     TextFileProducer p("frankenstein.txt");
+    LowerCaseProcessor lc;
     StringConsumer c;
 
-    p.connect(c);
+    p.connect(lc);
+    c.connect(lc);
 
     std::future<void> p_future = p.start();
+    std::future<void> lc_future = lc.start();
     std::future<void> c_future = c.start();
 
     while (true) std::this_thread::yield();
