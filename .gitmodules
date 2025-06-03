@@ -4,6 +4,3 @@
 [submodule "lib/whisper.cpp"]
 	path = lib/whisper.cpp
 	url = git@github.com:ggml-org/whisper.cpp.git
-[submodule "lib/boost"]
-	path = lib/boost
-	url = https://github.com/boostorg/boost.git
