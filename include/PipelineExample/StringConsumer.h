@@ -6,7 +6,6 @@
 class StringConsumer : public Consumer<std::string> {
    public:
     StringConsumer();
-    StringConsumer(Producer<std::string>& producer);
 
     void step() override;
 };

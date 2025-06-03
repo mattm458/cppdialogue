@@ -8,8 +8,6 @@
 class TextFileProducer : public Producer<std::string> {
    public:
     TextFileProducer(const std::string& filename);
-    TextFileProducer(const std::string& filename,
-                     Consumer<std::string>& consumer);
 
     void step() override;
 

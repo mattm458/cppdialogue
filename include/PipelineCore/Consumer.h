@@ -14,10 +14,8 @@ class Consumer : public Runnable {
     Consumer()
         : has_producer(false),
           consumer_queue(std::make_shared<MutexQueue<InType>>()) {}
-    Consumer(const Producer<InType>& producer)
-        : has_producer(true), consumer_queue(producer.get_producer_queue()) {}
 
-    void set_producer(Producer<InType>& producer) {
+    void connect(Producer<InType>& producer) {
         if (this->has_producer)
             throw std::runtime_error("This Consumer already has a Producer!");
 
