@@ -9,11 +9,13 @@ TextFileProducer::TextFileProducer(const std::string& filename) : Producer() {
     this->infile.open(filename);
 }
 
-void TextFileProducer::step() {
+std::string TextFileProducer::produce() {
     std::string line;
 
     if (std::getline(this->infile, line))
-        this->produce(line);
-    else
+        return line;
+    else {
         this->stop();
+        return "";
+    }
 }

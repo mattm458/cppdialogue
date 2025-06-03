@@ -1,35 +1,17 @@
 #pragma once
 
-#include <PipelineCore/MutexQueue.h>
-#include <PipelineCore/Runnable.h>
-
-#include <iostream>
-#include <memory>
-
-template <class InType>
-class Consumer;
+#include <PipelineCore/Producible.h>
 
 template <typename OutType>
-class Producer : public Runnable {
+class Producer : public Producible<OutType> {
    public:
-    Producer()
-        : has_consumer(false),
-          producer_queue(std::make_shared<MutexQueue<OutType>>()) {}
-
-    void connect(Consumer<OutType>& consumer) {
-        if (this->has_consumer)
-            throw std::runtime_error("This Producer already has a Consumer!");
-
-        this->has_consumer = true;
-        consumer.has_producer = true;
-        this->producer_queue = consumer.consumer_queue;
-    }
+    Producer() : Producible<OutType>() {};
 
    protected:
-    void produce(OutType& x) { this->producer_queue->push(x); }
+    void step() override {
+        OutType production = this->produce();
+        this->push(production);
+    }
 
-   private:
-    friend class Consumer<OutType>;
-    bool has_consumer;
-    std::shared_ptr<MutexQueue<OutType>> producer_queue = nullptr;
+    virtual OutType produce() = 0;
 };
