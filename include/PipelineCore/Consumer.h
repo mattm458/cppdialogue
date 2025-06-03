@@ -20,12 +20,9 @@ class Consumer : public Runnable {
             throw std::runtime_error("This Consumer already has a Producer!");
 
         this->has_producer = true;
-        this->consumer_queue = producer.get_producer_queue();
+        producer.has_consumer = true;
+        this->consumer_queue = producer.producer_queue();
     }
-
-    std::shared_ptr<MutexQueue<InType>> get_consumer_queue() const {
-        return this->consumer_queue;
-    };
 
    protected:
     bool consumable() { return !this->consumer_queue->empty(); }
@@ -36,6 +33,7 @@ class Consumer : public Runnable {
     }
 
    private:
+    friend class Producer<InType>;
     bool has_producer;
     std::shared_ptr<MutexQueue<InType>> consumer_queue = nullptr;
 };

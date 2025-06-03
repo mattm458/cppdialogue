@@ -10,7 +10,9 @@
 
 int main() {
     TextFileProducer p("frankenstein.txt");
-    StringConsumer c(p);
+    StringConsumer c;
+
+    p.connect(c);
 
     p.start();
     c.start();
