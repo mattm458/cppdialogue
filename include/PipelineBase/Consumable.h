@@ -7,7 +7,7 @@
 template <class OutType>
 class Producible;
 
-template <typename InType>
+template <class InType>
 class Consumable {
    public:
     Consumable()
