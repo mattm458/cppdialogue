@@ -12,10 +12,7 @@ TextFileProducer::TextFileProducer(const std::string& filename) : Producer() {
 std::string TextFileProducer::produce() {
     std::string line;
 
-    if (std::getline(this->infile, line))
-        return line;
-    else {
-        this->stop();
-        return line;
-    }
+    if (!std::getline(this->infile, line)) this->stop();
+
+    return line;
 }
