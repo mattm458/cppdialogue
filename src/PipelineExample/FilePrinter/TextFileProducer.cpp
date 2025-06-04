@@ -1,4 +1,4 @@
-#include <PipelineExample/TextFileProducer.h>
+#include <PipelineExample/FilePrinter/TextFileProducer.h>
 
 #include <PipelineCore/Producer.h>
 

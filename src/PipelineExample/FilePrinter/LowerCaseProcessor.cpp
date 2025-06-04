@@ -1,4 +1,4 @@
-#include <PipelineExample/LowerCaseProcessor.h>
+#include <PipelineExample/FilePrinter/LowerCaseProcessor.h>
 
 #include <algorithm>
 #include <string>

@@ -1,4 +1,4 @@
-#include <PipelineExample/StringConsumer.h>
+#include <PipelineExample/FilePrinter/StringConsumer.h>
 
 #include <PipelineCore/Consumer.h>
 
