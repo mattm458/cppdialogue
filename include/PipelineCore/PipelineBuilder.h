@@ -6,70 +6,60 @@
 
 #include <PipelineCore/Pipeline.h>
 
-#include <memory>
 #include <vector>
 
 template <class LastProducer>
-class TypedPipelineBuilder;
+class IncompletePipelineBuilder;
 
 class PipelineBuilder {
    public:
     template <class T, class... _Args>
-    static std::shared_ptr<TypedPipelineBuilder<T>> BuildPipeline(
-        _Args&&... __args) {
+    static IncompletePipelineBuilder<T> BuildPipeline(_Args &&...__args) {
         static_assert(std::derived_from<T, ProducibleType> == true);
+        T *p = new T(std::forward<_Args>(__args)...);
 
-        std::shared_ptr<T> producer =
-            std::make_shared<T>(std::forward<_Args>(__args)...);
-
-        std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages =
-            std::make_shared<std::vector<std::shared_ptr<Runnable>>>();
-        stages->push_back(producer);
-
-        return std::make_shared<TypedPipelineBuilder<T>>(producer, stages);
+        return IncompletePipelineBuilder<T>(p);
     }
 
-    PipelineBuilder()
-        : stages(std::make_shared<std::vector<std::shared_ptr<Runnable>>>()) {}
-    PipelineBuilder(
-        std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages)
-        : stages(stages) {}
+    PipelineBuilder() : pipeline(new Pipeline()) {};
+    PipelineBuilder(Pipeline *pipeline) : pipeline(pipeline) {};
 
    protected:
-    std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages;
+    Pipeline *pipeline;
 };
 
 template <class LastProducer>
-class TypedPipelineBuilder : public PipelineBuilder {
+class IncompletePipelineBuilder : public PipelineBuilder {
    public:
-    TypedPipelineBuilder(
-        std::shared_ptr<LastProducer> last_producer,
-        std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages)
-        : PipelineBuilder(stages), last_producer(last_producer) {}
+    IncompletePipelineBuilder(LastProducer *p)
+        : PipelineBuilder(), last_producer(p) {
+        this->pipeline->add_stage(p);
+    }
 
-    template <class T, class... _Args>
-    std::shared_ptr<TypedPipelineBuilder<T>> then(_Args&&... __args) {
-        std::shared_ptr<T> producer =
-            std::make_shared<T>(std::forward<_Args>(__args)...);
-
-        last_producer->connect(*producer);
-        this->stages->push_back(producer);
-
-        return std::make_shared<TypedPipelineBuilder<T>>(producer, stages);
+    IncompletePipelineBuilder(Pipeline *pipeline, LastProducer *p)
+        : PipelineBuilder(pipeline), last_producer(p) {
+        this->pipeline->add_stage(p);
     }
 
     template <class T, class... _Args>
-    Pipeline close(_Args&&... __args) {
+    IncompletePipelineBuilder<T> then(_Args &&...__args) {
+        T *p = new T(std::forward<_Args>(__args)...);
+        this->last_producer->connect(*p);
+
+        return IncompletePipelineBuilder<T>(this->pipeline, p);
+    }
+
+    template <class T, class... _Args>
+    Pipeline *close(_Args &&...__args) {
         static_assert(std::derived_from<T, ConsumableType> == true);
 
-        std::shared_ptr<T> producer =
-            std::make_shared<T>(std::forward<_Args>(__args)...);
+        T *c = new T(std::forward<_Args>(__args)...);
+        c->connect(*this->last_producer);
+        this->pipeline->add_stage(c);
 
-        this->stages->push_back(producer);
-
-        return Pipeline(stages);
+        return pipeline;
     }
 
    private:
-    std::shared_ptr<LastProducer> last_producer;
+    LastProducer *last_producer;
 };

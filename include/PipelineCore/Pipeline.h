@@ -6,11 +6,20 @@
 
 class Pipeline : Runnable {
    public:
-    Pipeline(std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages)
-        : Runnable(), stages(stages) {}
-
     void step() override { return; }
 
+    void add_stage(Runnable *runnable) {
+        if (this->complete) {
+            throw std::runtime_error(
+                "New stages cannot be added to a complete pipeline!");
+        }
+
+        this->stages.push_back(runnable);
+    }
+
+    void finalize() { this->complete = true; }
+
    private:
-    std::shared_ptr<std::vector<std::shared_ptr<Runnable>>> stages;
+    bool complete = false;
+    std::vector<Runnable *> stages;
 };

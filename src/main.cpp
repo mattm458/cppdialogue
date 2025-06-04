@@ -1,26 +1,36 @@
 #include <SDL3/SDL.h>
 
+#include <PipelineCore/PipelineBuilder.h>
+
 #include <PipelineExample/LowerCaseProcessor.h>
 #include <PipelineExample/StringConsumer.h>
 #include <PipelineExample/TextFileProducer.h>
 
 #include <future>
 #include <iostream>
+#include <memory>
 #include <string>
 
 int main() {
-    TextFileProducer p("frankenstein.txt");
-    LowerCaseProcessor lc;
-    StringConsumer c;
+    Pipeline *p =
+        PipelineBuilder::BuildPipeline<TextFileProducer>("frankenstein.txt")
+            .then<LowerCaseProcessor>()
+            .close<StringConsumer>();
 
-    p.connect(lc);
-    c.connect(lc);
+    std::cout << "done" << std::endl;
 
-    std::future<void> p_future = p.start();
-    std::future<void> lc_future = lc.start();
-    std::future<void> c_future = c.start();
+    // TextFileProducer p("frankenstein.txt");
+    // LowerCaseProcessor lc;
+    // StringConsumer c;
 
-    while (true) std::this_thread::yield();
+    // p.connect(lc);
+    // c.connect(lc);
+
+    // std::future<void> p_future = p.start();
+    // std::future<void> lc_future = lc.start();
+    // std::future<void> c_future = c.start();
+
+    // while (true) std::this_thread::yield();
 }
 
 // int main()
