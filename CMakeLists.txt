@@ -18,9 +18,9 @@ add_custom_target(example_data_dir ALL DEPENDS ${EXAMPLE_DATA_LINK})
 
 add_executable(cppdialogue
     src/main.cpp
-    src/PipelineExample/LowerCaseProcessor.cpp
-    src/PipelineExample/StringConsumer.cpp
-    src/PipelineExample/TextFileProducer.cpp
+    src/PipelineExample/FilePrinter/LowerCaseProcessor.cpp
+    src/PipelineExample/FilePrinter/StringConsumer.cpp
+    src/PipelineExample/FilePrinter/TextFileProducer.cpp
 )
 
 target_include_directories(cppdialogue PRIVATE include)
