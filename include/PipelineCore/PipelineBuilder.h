@@ -57,6 +57,8 @@ class IncompletePipelineBuilder : public PipelineBuilder {
         c->connect(*this->last_producer);
         this->pipeline->add_stage(c);
 
+        this->pipeline->finalize();
+
         return pipeline;
     }
 

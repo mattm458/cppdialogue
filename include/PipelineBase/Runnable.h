@@ -9,6 +9,7 @@ class Runnable {
     virtual ~Runnable() { this->stop(); }
 
     std::future<void> start() {
+        this->on_startup();
         this->running.test_and_set();
         return std::async(std::launch::async, &Runnable::_start, this);
     }
@@ -24,6 +25,7 @@ class Runnable {
     }
 
     virtual void step() = 0;
+    virtual void on_startup() {};
 
    private:
     std::atomic_flag running;

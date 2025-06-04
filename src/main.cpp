@@ -17,7 +17,9 @@ int main() {
             .then<LowerCaseProcessor>()
             .close<StringConsumer>();
 
-    std::cout << "done" << std::endl;
+    std::future<void> f = p->start();
+
+    while (true) std::this_thread::yield();
 
     // TextFileProducer p("frankenstein.txt");
     // LowerCaseProcessor lc;
