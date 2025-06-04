@@ -19,7 +19,7 @@ class Pipeline : public Runnable {
     void finalize() { this->complete = true; }
 
    protected:
-    void on_startup() override {
+    void pre_startup() override {
         for (int i = this->stages.size() - 1; i >= 0; i--) {
             this->futures.push_back(this->stages[i]->start());
         };

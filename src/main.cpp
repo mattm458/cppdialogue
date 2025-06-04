@@ -2,9 +2,9 @@
 
 #include <PipelineCore/PipelineBuilder.h>
 
-#include <PipelineExample/LowerCaseProcessor.h>
-#include <PipelineExample/StringConsumer.h>
-#include <PipelineExample/TextFileProducer.h>
+#include <PipelineExample/FilePrinter/LowerCaseProcessor.h>
+#include <PipelineExample/FilePrinter/StringConsumer.h>
+#include <PipelineExample/FilePrinter/TextFileProducer.h>
 
 #include <future>
 #include <iostream>
@@ -12,10 +12,10 @@
 #include <string>
 
 int main() {
-    Pipeline *p =
-        PipelineBuilder::BuildPipeline<TextFileProducer>("example_data/frankenstein.txt")
-            .then<LowerCaseProcessor>()
-            .close<StringConsumer>();
+    Pipeline *p = PipelineBuilder::BuildPipeline<TextFileProducer>(
+                      "example_data/frankenstein.txt")
+                      .then<LowerCaseProcessor>()
+                      .close<StringConsumer>();
 
     std::future<void> f = p->start();
 
