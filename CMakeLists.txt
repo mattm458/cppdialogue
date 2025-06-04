@@ -7,14 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_subdirectory(lib/SDL)
 add_subdirectory(lib/whisper.cpp)
 
-set(WAV_DIR ${CMAKE_SOURCE_DIR}/wav)
-set(WAV_LINK ${CMAKE_BINARY_DIR}/wav)
+set(EXAMPLE_DATA_DIR ${CMAKE_SOURCE_DIR}/example_data)
+set(EXAMPLE_DATA_LINK ${CMAKE_BINARY_DIR}/example_data)
 add_custom_command(
-    OUTPUT ${WAV_LINK}
-    COMMAND ${CMAKE_COMMAND} -E create_symlink ${WAV_DIR} ${WAV_LINK}
+    OUTPUT ${EXAMPLE_DATA_LINK}
+    COMMAND ${CMAKE_COMMAND} -E create_symlink ${EXAMPLE_DATA_DIR} ${EXAMPLE_DATA_LINK}
 )
 
-add_custom_target(wav_dir ALL DEPENDS ${WAV_LINK})
+add_custom_target(example_data_dir ALL DEPENDS ${EXAMPLE_DATA_LINK})
 
 add_executable(cppdialogue
     src/main.cpp

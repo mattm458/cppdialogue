@@ -13,7 +13,7 @@
 
 int main() {
     Pipeline *p =
-        PipelineBuilder::BuildPipeline<TextFileProducer>("frankenstein.txt")
+        PipelineBuilder::BuildPipeline<TextFileProducer>("example_data/frankenstein.txt")
             .then<LowerCaseProcessor>()
             .close<StringConsumer>();
 
